@@ -11,7 +11,7 @@ import request from 'superagent';
 export function getWorldRequest() {
   return (dispatch) => {
     return request
-      .get('/api/world')
+      .get('/api/world/')
       .then((response) => {
         dispatch(getWorldSuccess(response.body.world));
       }, (error) => {

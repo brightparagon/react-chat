@@ -3,6 +3,7 @@ const {resolve} = require('path');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
 module.exports = {
+  devtool: 'eval-source-map',
   context: resolve(__dirname, 'src'),
 
   entry: [
@@ -19,8 +20,6 @@ module.exports = {
     path: '/',
     publicPath: '/'
   },
-
-  devtool: 'eval-source-map',
 
   devServer: {
     hot: true,

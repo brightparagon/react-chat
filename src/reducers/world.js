@@ -4,9 +4,9 @@ import update from 'react-addons-update';
 const initialState = {
   get: {
     world: {
-      country: '',
-      city: '',
-      message: ''
+      country: 'country',
+      city: 'city',
+      message: 'message'
     }
   }
 };

@@ -5,19 +5,47 @@ import {
 } from '../components';
 import {
   getWorldRequest
-} from '../actions/promotion';
+} from '../actions/world';
 
 class WorldContainer extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      isClicked: false
+    };
+    this.handleGetWorld = this.handleGetWorld.bind(this);
+  }
+
+  handleGetWorld() {
+    const {isClicked} = this.state;
+
+    if(isClicked) {
+      this.setState({
+        isClicked: false
+      });
+    } else {
+      this.props.getWorldRequest();
+      this.setState({
+        isClicked: true
+      });
+    }
   }
 
   render() {
+    const {isClicked} = this.state;
+
     return (
       <div>
-        <Header />
-        <Button />
-        <Container />
+        <Header
+          title='React Node Boilerplate'
+        />
+        <Container
+          world={this.props.getWorld.world}
+          isClicked={isClicked}
+        />
+        <Button
+          onGetWorld={this.handleGetWorld}
+        />
       </div>
     );
   }

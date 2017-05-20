@@ -1,3 +1,18 @@
 body {
   background: #FFFFCC
 }
+
+.headerClass {
+  margin-top: 200px;
+  text-align:center;
+}
+
+.containerClass {
+  margin-top: 100px;
+  text-align:center
+}
+
+.buttonClass {
+  margin-top: 100px;
+  text-align:center
+}
