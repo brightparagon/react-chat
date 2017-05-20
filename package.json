@@ -4,11 +4,35 @@
   "description": "Boilerplate for building apps with React.js, Node.js and Express.js",
   "main": "app.js",
   "scripts": {
-    "test": "npm test"
+    "clean": "rm -rf build public/bundle.js",
+    "build": "babel server --out-dir build --presets=es2015",
+    "webpack": "webpack",
+    "start": "cross-env NODE_ENV=production node ./build/app.js",
+    "development": "cross-env NODE_ENV=development nodemon --exec babel-node --presets=es2015 ./server/app.js --watch server"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/brightparagon/react-node-boilerplate.git"
+  },
+  "babel": {
+    "presets": [
+      [
+        "es2015",
+        {
+          "modules": false
+        }
+      ],
+      "react",
+      [
+        "env",
+        {
+          "modules": false
+        }
+      ]
+    ],
+    "plugins": [
+      "react-hot-loader/babel"
+    ]
   },
   "keywords": [
     "react.js",
