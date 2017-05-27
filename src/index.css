@@ -13,6 +13,18 @@ body {
 }
 
 .buttonClass {
-  margin-top: 100px;
-  text-align:center
+  position: fixed;
+  margin-bottom: 10px;
+  margin-left: 1000px;
+  bottom: 50px;
+  text-align:center;
+  margin-right: 100px
+}
+
+.inputClass {
+  position: fixed;
+  border: 1;
+  bottom: 50px;
+  margin-left: 800px;
+  margin-bottom: 10px
 }

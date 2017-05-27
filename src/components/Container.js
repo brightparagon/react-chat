@@ -1,32 +1,17 @@
 import React from 'react';
 
-/*
-  Functional Component: only renders some with data passed from Containers
-*/
-function Container({world, isClicked}) {
-  const clicked = (
-    <div>
-      I live in {world.city}, {world.country}.
-      {world.message}
-    </div>
-  );
+class Container extends React.Component {
+  constructor(props) {
+    super(props);
+  }
 
-  const notClicked = (
-    <div>
-      Wating for the message...
-    </div>
-  );
+  render() {
+    return(
+      <div className='containerClass'>
 
-  return (
-    <div className='containerClass'>
-      {
-        isClicked ?
-          clicked
-          :
-          notClicked
-      }
-    </div>
-  );
-};
+      </div>
+    );
+  }
+}
 
 export default Container;

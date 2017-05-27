@@ -1,9 +1,9 @@
-import Header from './Header';
 import Button from './Button';
 import Container from './Container';
+import Input from './Input';
 
 export {
-  Header,
   Button,
-  Container
+  Container,
+  Input
 };

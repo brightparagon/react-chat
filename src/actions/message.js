@@ -3,12 +3,7 @@ import {
 } from './ActionTypes';
 import request from 'superagent';
 
-/*
-  DISPATCHER TO GET A WORLD
-  * Can do AJAX call in dispatcher thanks to redux-thunk
-  * Use HTTP Client as you want: superagent used here for example
-*/
-export function getWorldRequest() {
+export function sendMessageRequest() {
   return (dispatch) => {
     return request
       .get('/api/world/')
@@ -21,7 +16,7 @@ export function getWorldRequest() {
   }
 }
 
-export function getWorldSuccess(world) {
+export function sendMessageSuccess(world) {
   return {
     type: GET_WORLD,
     world

@@ -1,5 +1,5 @@
-import world from './world';
+import message from './message';
 
 export {
-  world
+  message
 };

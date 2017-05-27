@@ -1,7 +1,7 @@
 import {combineReducers} from 'redux';
 
-import world from './world';
+import message from './message';
 
 export default combineReducers({
-  world
+  message
 });

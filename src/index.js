@@ -7,9 +7,9 @@ import {createStore, applyMiddleware} from 'redux';
 import thunk from 'redux-thunk';
 import reducers from './reducers';
 import App from './App';
-import {
-  WorldContainer
-} from './containers';
+// import {
+//   MainContainer
+// } from './containers';
 import './index.css';
 
 const store = createStore(reducers, applyMiddleware(thunk));
@@ -21,8 +21,6 @@ const render = (Component) => {
       <Provider store={store}>
         <Router history={browserHistory}>
           <Route path='/' component={Component}>
-            <IndexRoute component={WorldContainer}/>
-            <Route path='world' component={WorldContainer}/>
           </Route>
         </Router>
       </Provider>

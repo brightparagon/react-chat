@@ -1,5 +1,5 @@
-import WorldContainer from './WorldContainer';
+import MainContainer from './MainContainer';
 
 export {
-  WorldContainer
+  MainContainer
 };
