@@ -1,5 +1,5 @@
 import React from 'react';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 import {
   Input, Button, Container
 } from '../components';
@@ -7,7 +7,7 @@ import {
   sendMessageRequest
 } from '../actions/message';
 
-class MainContainer extends React.Component {
+class Lobby extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -40,6 +40,7 @@ class MainContainer extends React.Component {
   render() {
     return (
       <div>
+        <h1>Hello Lobby Component</h1>
         <Container
           message={this.props.message}
         />
@@ -69,4 +70,4 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(MainContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(Lobby);

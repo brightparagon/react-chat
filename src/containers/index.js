@@ -1,5 +1,7 @@
-import MainContainer from './MainContainer';
+import Lobby from './Lobby';
+import SignInPage from './SignInPage';
 
 export {
-  MainContainer
+  Lobby,
+  SignInPage
 };

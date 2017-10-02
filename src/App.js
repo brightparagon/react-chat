@@ -1,7 +1,7 @@
 import React from 'react';
-import {
-  MainContainer
-} from './Containers';
+// import {
+//
+// } from './Containers';
 
 class App extends React.Component {
   constructor(props) {
@@ -19,9 +19,8 @@ class App extends React.Component {
   render() {
     return (
       <div>
-        <MainContainer
-        >
-        </MainContainer>
+        <h1>Hello App Component</h1>
+        {this.props.children}
       </div>
     );
   }

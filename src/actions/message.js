@@ -1,5 +1,5 @@
 import {
-  GET_WORLD
+  GET_MESSAGE
 } from './ActionTypes';
 import request from 'superagent';
 
@@ -10,7 +10,6 @@ export function sendMessageRequest() {
       .then((response) => {
         dispatch(getWorldSuccess(response.body.world));
       }, (error) => {
-        // Error Handling Here
         console.log(error);
       });
   }
@@ -18,7 +17,7 @@ export function sendMessageRequest() {
 
 export function sendMessageSuccess(world) {
   return {
-    type: GET_WORLD,
+    type: GET_MESSAGE,
     world
   };
 }
