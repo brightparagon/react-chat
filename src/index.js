@@ -36,7 +36,7 @@ const render = (Component) => {
         <Router history={browserHistory}>
           <Route path='/' component={Component} onEnter={requireAuth} >
             <IndexRoute component={containers.Lobby} onEnter={requireAuth} />
-            <Route path='signin' component={containers.SignInPage} onEnter={requireAuth} />
+            <Route path='signin' component={containers.SignInPage} />
           </Route>
         </Router>
       </Provider>

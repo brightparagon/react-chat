@@ -1,7 +1,12 @@
 import React from 'react';
-// import {
-//
-// } from './Containers';
+import { connect } from 'react-redux';
+import { browserHistory } from 'react-router';
+import {
+  Header
+} from './components';
+import {
+  signOut
+} from './actions/user';
 
 class App extends React.Component {
   constructor(props) {
@@ -9,21 +14,53 @@ class App extends React.Component {
     // this.state = {
     //   socket: ''
     // };
+
+    this.handleSignOut = this.handleSignOut.bind(this);
   }
 
-  // componentDidMount() {
-  //   let {socket} = this.state;
-  //   socket = io();
-  // }
+  handleSignOut() {
+    this.props.signOut();
+    window.localStorage.removeItem('user_email');
+    browserHistory.push('/signin');
+  }
+
+  componentDidMount() {
+    const { auth } = this.props;
+    // let {socket} = this.state;
+    // socket = io();
+
+    // if (!auth.isSignedIn) {
+    //   browserHistory.push('/signin');
+    // }
+  }
 
   render() {
     return (
       <div>
         <h1>Hello App Component</h1>
+        <Header
+          isSignedIn={this.props.auth.isSignedIn}
+          signedInUser={this.props.auth.user}
+          onSignOut={this.handleSignOut}
+        />
         {this.props.children}
       </div>
     );
   }
 }
 
-export default App;
+const mapStateToProps = (state) => {
+  return {
+    auth: state.user.auth
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    signOut: () => {
+      return dispatch(signOut())
+    }
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);
