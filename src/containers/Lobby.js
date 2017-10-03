@@ -1,10 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import {
-  Input, Button, Container
+  Input, Button
 } from '../components';
 import {
-  sendMessageRequest
+  addMessage
 } from '../actions/message';
 import '../css/components.css';
 
@@ -12,31 +12,43 @@ class Lobby extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      socket: '',
       message: ''
     };
 
-    // this.handleSendMessage = this.handleSendMessage.bind(this);
-    // this.handleChange = this.handleChange.bind(this);
+    this.handleSendMessage = this.handleSendMessage.bind(this);
+    this.handleChange = this.handleChange.bind(this);
   }
 
-  // handleChange(e, {value}) {
-  //   this.setState({
-  //     message: value
-  //   });
-  // }
+  handleChange(e, { value } ) {
+    this.setState({
+      message: value
+    });
+  }
 
-  // handleSendMessage() {
-  //   const {message, socket} = this.state;
-  //   console.log(message);
-  //   socket.emit('chat message', message);
-  //   this.setState({message: ''});
-  // }
-  //
-  // componentDidMount() {
-  //   const socket = io();
-  //   this.setState({socket: socket});
-  // }
+  handleSendMessage() {
+    const { message } = this.state;
+    const data = {
+      email: this.props.auth.user.email,
+      name: this.props.auth.user.name,
+      message: message
+    };
+    this.props.socket.emit('message', data);
+    this.setState({
+      message: ''
+    });
+  }
+
+  componentDidMount() {
+    this.props.socket.on('welcome', (userName) => {
+      this.props.addMessage('welcome', userName, `${userName}님이 입장하셨습니다ㅎㅎ`);
+    });
+    this.props.socket.on('broadcast', (data) => {
+      this.props.addMessage(data.email, data.name, data.message);
+    });
+    this.props.socket.on('signout', (userName) => {
+      this.props.addMessage('signout', userName, `${userName}님이 퇴장하셨습니다ㅜㅜ`);
+    });
+  }
 
   render() {
     return (
@@ -45,33 +57,35 @@ class Lobby extends React.Component {
           <h1>Hello Lobby Component</h1>
         </div>
         <div className='flex-page-item'>
-
+          {this.props.messages.map((message, index) =>
+            <div key={message.name + index}>{message.name}: {message.message}</div>
+          )}
+        </div>
+        <div className='flex-page-item'>
+          <Input
+            message={this.state.message}
+            onChange={this.handleChange}
+          />
+          <Button
+            onSendMessage={this.handleSendMessage}
+          />
         </div>
       </div>
     );
   }
-  // <Container
-  //   message={this.props.message}
-  // />
-  // <Input
-  //   message={this.state.message}
-  //   onHandleChange={this.handleChange}
-  // />
-  // <Button
-  //   onSendMessage={this.handleSendMessage}
-  // />
 }
 
 const mapStateToProps = (state) => {
   return {
-    message: state.message
+    auth: state.user.auth,
+    messages: state.message.messages
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    sendMessageRequest: (message) => {
-      return dispatch(sendMessageRequest(message));
+    addMessage: (email, name, message) => {
+      return dispatch(addMessage(email, name, message));
     }
   };
 };

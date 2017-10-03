@@ -1,6 +1,4 @@
-import {
-  GET_MESSAGE
-} from './ActionTypes';
+import * as types from './ActionTypes';
 import request from 'superagent';
 
 export function sendMessageRequest() {
@@ -15,9 +13,11 @@ export function sendMessageRequest() {
   }
 }
 
-export function sendMessageSuccess(world) {
+export function addMessage(email, name, message) {
   return {
-    type: GET_MESSAGE,
-    world
+    type: types.ADD_MESSAGE,
+    email,
+    name,
+    message
   };
 }

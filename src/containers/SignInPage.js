@@ -10,7 +10,6 @@ import '../css/components.css';
 class SignInPage extends React.Component {
   constructor(props) {
     super(props);
-
     this.onSignIn = this.onSignIn.bind(this);
     this.onSignInFailure = this.onSignInFailure.bind(this);
   }
@@ -23,8 +22,11 @@ class SignInPage extends React.Component {
       imageUrl: profile.imageUrl,
       email: profile.email
     };
+    const isSignedIn = true;
     window.sessionStorage.setItem('user_email', profile.email);
-    this.props.signIn(signedUser, true);
+    window.sessionStorage.setItem('user_name', profile.name);
+    this.props.signIn(signedUser, isSignedIn);
+    this.props.socket.emit('signin', signedUser);
     browserHistory.push('/');
   }
 

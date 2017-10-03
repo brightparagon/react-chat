@@ -1,47 +1,55 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { browserHistory } from 'react-router';
+import io from 'socket.io-client';
 import {
   Header
 } from './components';
 import {
+  signIn,
   signOut
 } from './actions/user';
 import './index.css';
 
+const socket = io('', {path: '/api/chat'});
+
 class App extends React.Component {
   constructor(props) {
     super(props);
-    // this.state = {
-    //   socket: ''
-    // };
-
     this.handleSignOut = this.handleSignOut.bind(this);
   }
 
   handleSignOut() {
-    this.props.signOut();
     window.sessionStorage.removeItem('user_email');
+    window.sessionStorage.removeItem('user_name');
+    const dataToSend = {
+      email: this.props.auth.user.email,
+      name: this.props.auth.user.name
+    };
+    socket.emit('signout', dataToSend);
+    this.props.signOut();
     browserHistory.push('/signin');
-  }
-
-  componentDidMount() {
-    const { auth } = this.props;
-    // let {socket} = this.state;
-    // socket = io();
-
-    // if (!auth.isSignedIn) {
-    //   browserHistory.push('/signin');
-    // }
   }
 
   componentWillUnmount() {
     window.sessionStorage.removeItem('user_email');
+    window.sessionStorage.removeItem('user_name');
+  }
+
+  componentDidMount() {
+    if (window.sessionStorage.getItem('user_email')) {
+      const isSignedIn = true;
+      const signedUser = {
+        email: window.sessionStorage.getItem('user_email'),
+        name: window.sessionStorage.getItem('user_name'),
+      };
+      this.props.signIn(signedUser, isSignedIn);
+    }
   }
 
   render() {
     return (
-      <div className='flex-container'>
+      <div className='App flex-container'>
         <div className='flex-item'>
           <h1>Hello App Component</h1>
           <Header
@@ -51,7 +59,7 @@ class App extends React.Component {
           />
         </div>
         <div className='flex-item'>
-          {this.props.children}
+          {React.cloneElement(this.props.children, {socket: socket})}
         </div>
       </div>
     );
@@ -66,6 +74,9 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    signIn: (signedUser, isSignedIn) => {
+      return dispatch(signIn(signedUser, isSignedIn))
+    },
     signOut: () => {
       return dispatch(signOut())
     }

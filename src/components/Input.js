@@ -1,4 +1,5 @@
 import React from 'react';
+import '../css/components.css';
 
 class Input extends React.Component {
   constructor(props) {
@@ -7,8 +8,8 @@ class Input extends React.Component {
 
   render() {
     return(
-      <div className='inputClass'>
-        <input value={this.props.message} onChange={this.props.onHandleChange}/>
+      <div className='input'>
+        <input value={this.props.message} onChange={this.props.onChange}/>
       </div>
     );
   }

@@ -1,3 +1,7 @@
+.App {
+  height: 80%;
+}
+
 .flex-container {
   display: flex;
   flex-direction: column;
