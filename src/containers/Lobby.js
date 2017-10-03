@@ -6,6 +6,7 @@ import {
 import {
   sendMessageRequest
 } from '../actions/message';
+import '../css/components.css';
 
 class Lobby extends React.Component {
   constructor(props) {
@@ -39,9 +40,13 @@ class Lobby extends React.Component {
 
   render() {
     return (
-      <div>
-        <h1>Hello Lobby Component</h1>
+      <div className='flex-page'>
+        <div className='flex-page-item'>
+          <h1>Hello Lobby Component</h1>
+        </div>
+        <div className='flex-page-item'>
 
+        </div>
       </div>
     );
   }

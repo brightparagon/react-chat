@@ -1,16 +1,14 @@
-.flex-container {
+.flex-page {
   display: flex;
   flex-direction: column;
-  margin: 10%;
-  padding: 20px;
+  padding: 10px;
   border-radius: 10px;
-  background: #FFE650;
+  height: 300px;
 }
 
-.flex-item {
+.flex-page-item {
   margin: 10px;
-  padding: 20px;
+  padding: 10px;
   text-align: center;
   border-radius: 10px;
-  background: #3CA03C;
 }

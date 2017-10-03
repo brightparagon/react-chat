@@ -7,6 +7,7 @@ import {
 import {
   signOut
 } from './actions/user';
+import './index.css';
 
 class App extends React.Component {
   constructor(props) {
@@ -20,7 +21,7 @@ class App extends React.Component {
 
   handleSignOut() {
     this.props.signOut();
-    window.localStorage.removeItem('user_email');
+    window.sessionStorage.removeItem('user_email');
     browserHistory.push('/signin');
   }
 
@@ -34,16 +35,24 @@ class App extends React.Component {
     // }
   }
 
+  componentWillUnmount() {
+    window.sessionStorage.removeItem('user_email');
+  }
+
   render() {
     return (
-      <div>
-        <h1>Hello App Component</h1>
-        <Header
-          isSignedIn={this.props.auth.isSignedIn}
-          signedInUser={this.props.auth.user}
-          onSignOut={this.handleSignOut}
-        />
-        {this.props.children}
+      <div className='flex-container'>
+        <div className='flex-item'>
+          <h1>Hello App Component</h1>
+          <Header
+            isSignedIn={this.props.auth.isSignedIn}
+            signedInUser={this.props.auth.user}
+            onSignOut={this.handleSignOut}
+          />
+        </div>
+        <div className='flex-item'>
+          {this.props.children}
+        </div>
       </div>
     );
   }

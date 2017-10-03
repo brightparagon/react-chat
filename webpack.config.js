@@ -3,7 +3,7 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 // const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
+// const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 module.exports = {
   // entry 불러오는 순서는 이대로 해야함
@@ -47,20 +47,20 @@ module.exports = {
         //   presets: ['es2015', 'react']
         // }
       },
-      // {
-      //   test: /\.css$/,
-      //   use: [
-      //     'style-loader',
-      //     'css-loader'
-      //   ]
-      // },
       {
         test: /\.css$/,
-        use: ExtractTextPlugin.extract({
-          fallback: 'style-loader',
-          use: 'css-loader'
-        })
+        use: [
+          'style-loader',
+          'css-loader'
+        ]
       },
+      // {
+      //   test: /\.css$/,
+      //   use: ExtractTextPlugin.extract({
+      //     fallback: 'style-loader',
+      //     use: 'css-loader'
+      //   })
+      // },
       { // 이미지 파일들을 import하면 output directory로의 path값을 갖도록 한다
         test: /\.(png|svg|jpg|gif)$/,
         use: [
@@ -109,7 +109,7 @@ module.exports = {
       }
     }),
     // ExtractTextPlugin readme 읽어보기
-    new ExtractTextPlugin('style.css'),
+    // new ExtractTextPlugin('style.css'),
     // new UglifyJsPlugin({
     //   sourceMap: true,
     //   compress: {

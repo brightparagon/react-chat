@@ -8,7 +8,6 @@ import thunk from 'redux-thunk';
 import reducers from './reducers';
 import App from './App';
 import * as containers from './containers';
-import './index.css';
 
 const store = createStore(reducers, applyMiddleware(thunk));
 const rootElement = document.getElementById('root');
@@ -21,7 +20,7 @@ const rootElement = document.getElementById('root');
 const requireAuth = (nextState, replace) => {
   const path = nextState.location.pathname;
   // url path가 /admin/signin가 아니면서 로그인 되어있지 않으면 /signin로 이동
-  if (path !== '/signin' && !window.localStorage.getItem('user_email')) {
+  if (path !== '/signin' && !window.sessionStorage.getItem('user_email')) {
     alert('로그인 페이지로 이동합니다.');
     replace({
       pathname: '/signin'
