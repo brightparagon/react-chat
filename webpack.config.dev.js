@@ -39,13 +39,13 @@ module.exports = {
           'css-loader'
         ]
       },
-      { // 이미지 파일들을 import하면 output directory로의 path값을 갖도록 한다
+      {
         test: /\.(png|svg|jpg|jpeg|gif)$/,
         use: [
          'file-loader'
         ]
       },
-      { // 폰트 파일들도 이미지와 마찬가지로 연결
+      {
         test: /\.(woff|woff2|eot|ttf|otf)$/,
         use: [
          'file-loader'
@@ -55,30 +55,19 @@ module.exports = {
   },
 
   plugins: [
-    // This is especially useful for webpack bundles that include a hash in the filename which changes every compilation.
     new HtmlWebpackPlugin({
       inject: true,
       template: path.resolve(__dirname, 'public/index.html')
     }),
-
-    // Prints more readable module names in the browser console on HMR updates
     new webpack.NamedModulesPlugin(),
-
     new webpack.DefinePlugin({
       'process.env': {
         'NODE_ENV': JSON.stringify('development')
       }
     }),
-
-    // Use Hot Module Replacement
     new webpack.HotModuleReplacementPlugin(),
-
-    // Do not emit compiled assets that include errors
     new webpack.NoEmitOnErrorsPlugin(),
-
     new CaseSensitivePathsPlugin(),
-
-    // Enable loaders to have options 
     new webpack.LoaderOptionsPlugin({
       minimize: true
     })
@@ -90,34 +79,27 @@ module.exports = {
     proxy: {
       '/api/*': 'http://localhost:3000'
     },
-    // Enable gzip compression
     compress: true,
-    // True for index.html upon 404s, object for multiple paths
     historyApiFallback: true,
-    // Inline mode is recommended for Hot Module Replacement as it includes an HMR trigger from the websocket
     inline: true,
-    // Hot module replacement. Depends on HotModuleReplacementPlugin
     hot: true,
-    // Shows a full-screen overlay in the browser when there are compiler errors or warnings
     overlay: true,
     filename: 'static/js/bundle.js',
-    // CLI custom
     stats: {
-      assets: true,           // Sort assets by a field
-      children: true,         // Add chunk information
-      chunks: false,          // Add built modules information to chunk information
+      assets: true,
+      children: true,
+      chunks: false,
       chunkModules: false,
       colors: true,
-      performance: false,     // Show performance hint when file size exceeds `performance.maxAssetSize`
-      publicPath: true,       // Add public path information
+      performance: false,
+      publicPath: true,
       version: true,
-      hash: true,             // Add the hash of the compilation
+      hash: true,
       timings: false,
       warnings: false
     }
   },
 
-  // Performance tuning에 대한 힌트를 표시하지 않는다
   performance: {
     hints: false
   }

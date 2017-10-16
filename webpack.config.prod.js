@@ -20,7 +20,7 @@ module.exports = {
       'react-redux',
       'reselect',
       'redux-saga',
-      'axios'
+      'superagent'
     ],
     app: path.resolve(__dirname, 'src/index.js')
   },
