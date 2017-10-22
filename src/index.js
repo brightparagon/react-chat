@@ -1,16 +1,19 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { AppContainer } from 'react-hot-loader';
-import { Router, Route, browserHistory, IndexRoute } from 'react-router';
+import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
-import thunk from 'redux-thunk';
+import createSagaMiddleware from 'redux-saga';
 import reducers from './reducers';
+import rootSaga from './sagas';
 import App from './App';
 import * as containers from './containers';
 
-const store = createStore(reducers, applyMiddleware(thunk));
 const rootElement = document.getElementById('root');
+const sagaMiddleware = createSagaMiddleware();
+const store = createStore(reducers, applyMiddleware(sagaMiddleware));
+sagaMiddleware.run(rootSaga);
 // react hot loading시 router 관련 코드를 plain obejct로 빼야 되는 경우가 있음
 // const routes = (
 //   <Route path='/' component={App}>

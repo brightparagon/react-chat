@@ -1,5 +1,4 @@
 import * as types from '../actions/ActionTypes';
-import update from 'react-addons-update';
 
 const initialState = {
   messages: []  // array of objects { email, name, message }
@@ -19,9 +18,6 @@ export default function message(state = initialState, action) {
           }
         ]
       };
-      // return update(state, {
-      //   messages: [$push: ]
-      // });
 
     default:
       return state;
