@@ -1,7 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { browserHistory } from 'react-router';
+import { Route } from 'react-router-dom';
 import io from 'socket.io-client';
+import {
+  Lobby, SignInPage
+} from './containers';
 import {
   Header
 } from './components';
@@ -28,7 +31,7 @@ class App extends React.Component {
     };
     socket.emit('signout', dataToSend);
     this.props.signOut();
-    browserHistory.push('/signin');
+    // browserHistory.push('/signin');
   }
 
   componentWillUnmount() {
@@ -59,7 +62,8 @@ class App extends React.Component {
           />
         </div>
         <div className='flex-item'>
-          {React.cloneElement(this.props.children, {socket: socket})}
+          <Route path='/' render={(props) => (<Lobby {...props} socket={socket} />)} />
+          <Route path='/signin' rebder={(props) => (<SignInPage {...props} socket={socket} />)} />
         </div>
       </div>
     );

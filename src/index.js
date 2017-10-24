@@ -8,18 +8,12 @@ import createSagaMiddleware from 'redux-saga';
 import reducers from './reducers';
 import rootSaga from './sagas';
 import App from './App';
-import * as containers from './containers';
 
 const rootElement = document.getElementById('root');
 const sagaMiddleware = createSagaMiddleware();
 const store = createStore(reducers, applyMiddleware(sagaMiddleware));
 sagaMiddleware.run(rootSaga);
-// react hot loading시 router 관련 코드를 plain obejct로 빼야 되는 경우가 있음
-// const routes = (
-//   <Route path='/' component={App}>
-//     <IndexRoute component={containers.Lobby} />
-//   </Route>
-// );
+
 const requireAuth = (nextState, replace) => {
   const path = nextState.location.pathname;
   // url path가 /admin/signin가 아니면서 로그인 되어있지 않으면 /signin로 이동
@@ -31,16 +25,20 @@ const requireAuth = (nextState, replace) => {
   }
 };
 
+/* <Router history={browserHistory}>
+          <Route path='/' component={Component}>
+            <IndexRoute component={containers.Lobby}/>
+            <Route path='signin' component={containers.SignInPage} />
+          </Route>
+        </Router> */
+
 const render = (Component) => {
   ReactDOM.render (
     <AppContainer>
       <Provider store={store}>
-        <Router history={browserHistory}>
-          <Route path='/' component={Component} onEnter={requireAuth} >
-            <IndexRoute component={containers.Lobby} onEnter={requireAuth} />
-            <Route path='signin' component={containers.SignInPage} />
-          </Route>
-        </Router>
+        <BrowserRouter>
+          <Component/>
+        </BrowserRouter>
       </Provider>
     </AppContainer>,
     rootElement
