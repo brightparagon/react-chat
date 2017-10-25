@@ -14,24 +14,6 @@ const sagaMiddleware = createSagaMiddleware();
 const store = createStore(reducers, applyMiddleware(sagaMiddleware));
 sagaMiddleware.run(rootSaga);
 
-const requireAuth = (nextState, replace) => {
-  const path = nextState.location.pathname;
-  // url path가 /admin/signin가 아니면서 로그인 되어있지 않으면 /signin로 이동
-  if (path !== '/signin' && !window.sessionStorage.getItem('user_email')) {
-    alert('로그인 페이지로 이동합니다.');
-    replace({
-      pathname: '/signin'
-    });
-  }
-};
-
-/* <Router history={browserHistory}>
-          <Route path='/' component={Component}>
-            <IndexRoute component={containers.Lobby}/>
-            <Route path='signin' component={containers.SignInPage} />
-          </Route>
-        </Router> */
-
 const render = (Component) => {
   ReactDOM.render (
     <AppContainer>

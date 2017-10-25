@@ -19,9 +19,9 @@ class Lobby extends React.Component {
     this.handleChange = this.handleChange.bind(this);
   }
 
-  handleChange(e, { value } ) {
+  handleChange(e) {
     this.setState({
-      message: value
+      message: e.target.value
     });
   }
 

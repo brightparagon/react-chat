@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Route } from 'react-router-dom';
+import { Route, Switch, Redirect } from 'react-router-dom';
 import io from 'socket.io-client';
 import {
   Lobby, SignInPage
@@ -19,6 +19,10 @@ const socket = io('', {path: '/api/chat'});
 class App extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      redirectTo: ''
+    };
+
     this.handleSignOut = this.handleSignOut.bind(this);
   }
 
@@ -47,12 +51,19 @@ class App extends React.Component {
         name: window.sessionStorage.getItem('user_name'),
       };
       this.props.signIn(signedUser, isSignedIn);
+    } else {
+      this.setState({
+        redirectTo: '/signin'
+      });
     }
   }
 
   render() {
-    return (
-      <div className='App flex-container'>
+    const { redirectTo } = this.state;
+
+    return [
+      redirectTo !== '' ? <Redirect key='redirect' to={redirectTo} push /> : null,
+      <div className='App flex-container' key='app' >
         <div className='flex-item'>
           <h1>Hello App Component</h1>
           <Header
@@ -62,14 +73,16 @@ class App extends React.Component {
           />
         </div>
         <div className='flex-item'>
-          <Route path='/' render={(props) => (<Lobby {...props} socket={socket} />)} />
-          <Route path='/signin' rebder={(props) => (<SignInPage {...props} socket={socket} />)} />
+          <Switch>
+            <Route path='/signin' rebder={(props) => (<SignInPage {...props} socket={socket} />)} />
+            <Route path='/' render={(props) => (<Lobby {...props} socket={socket} />)} />
+          </Switch>
         </div>
       </div>
-    );
+    ];
   }
 }
-
+// <Redirect to='/signin' push />
 const mapStateToProps = (state) => {
   return {
     auth: state.user.auth

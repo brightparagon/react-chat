@@ -35,6 +35,7 @@ class SignInPage extends React.Component {
   }
 
   render() {
+    console.log('??');
     return (
       <div className='flex-page'>
         <div className='flex-page-item'>
