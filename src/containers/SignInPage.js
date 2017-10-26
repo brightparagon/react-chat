@@ -1,6 +1,5 @@
 import React from 'react';
 import { connect } from 'react-redux';
-// import { browserHistory } from 'react-router-dom';
 import GoogleLogin from 'react-google-login';
 import {
   signIn
@@ -27,7 +26,7 @@ class SignInPage extends React.Component {
     window.sessionStorage.setItem('user_name', profile.name);
     this.props.signIn(signedUser, isSignedIn);
     this.props.socket.emit('signin', signedUser);
-    // browserHistory.push('/');
+    this.props.history.push('/');
   }
 
   onSignInFailure(response) {
@@ -35,7 +34,6 @@ class SignInPage extends React.Component {
   }
 
   render() {
-    console.log('??');
     return (
       <div className='flex-page'>
         <div className='flex-page-item'>

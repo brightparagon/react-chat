@@ -39,6 +39,17 @@ class Lobby extends React.Component {
   }
 
   componentDidMount() {
+    if (window.sessionStorage.getItem('user_email')) {
+      const isSignedIn = true;
+      const signedUser = {
+        email: window.sessionStorage.getItem('user_email'),
+        name: window.sessionStorage.getItem('user_name'),
+      };
+      this.props.signIn(signedUser, isSignedIn);
+    } else {
+      return this.props.history.push('/signin');
+    }
+
     this.props.socket.on('welcome', (userName) => {
       this.props.addMessage('welcome', userName, `${userName}님이 입장하셨습니다ㅎㅎ`);
     });
@@ -52,7 +63,7 @@ class Lobby extends React.Component {
 
   render() {
     return (
-      <div className='flex-page'>
+      <div className='flex-page' key='Lobby'>
         <div className='flex-page-item'>
           <h1>Hello Lobby Component</h1>
         </div>

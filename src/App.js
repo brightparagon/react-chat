@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Route, Switch, Redirect } from 'react-router-dom';
+import { Route, Switch, Redirect, BrowserRouter } from 'react-router-dom';
 import io from 'socket.io-client';
 import {
   Lobby, SignInPage
@@ -14,12 +14,11 @@ import {
 } from './actions/user';
 import './index.css';
 
-const socket = io('', {path: '/api/chat'});
-
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      socket: io('', {path: '/api/chat'}),
       redirectTo: ''
     };
 
@@ -27,6 +26,8 @@ class App extends React.Component {
   }
 
   handleSignOut() {
+    const { socket } = this.state;
+
     window.sessionStorage.removeItem('user_email');
     window.sessionStorage.removeItem('user_name');
     const dataToSend = {
@@ -35,7 +36,9 @@ class App extends React.Component {
     };
     socket.emit('signout', dataToSend);
     this.props.signOut();
-    // browserHistory.push('/signin');
+    this.setState({
+      redirectTo: '/signin'
+    });
   }
 
   componentWillUnmount() {
@@ -43,27 +46,12 @@ class App extends React.Component {
     window.sessionStorage.removeItem('user_name');
   }
 
-  componentDidMount() {
-    if (window.sessionStorage.getItem('user_email')) {
-      const isSignedIn = true;
-      const signedUser = {
-        email: window.sessionStorage.getItem('user_email'),
-        name: window.sessionStorage.getItem('user_name'),
-      };
-      this.props.signIn(signedUser, isSignedIn);
-    } else {
-      this.setState({
-        redirectTo: '/signin'
-      });
-    }
-  }
-
   render() {
-    const { redirectTo } = this.state;
+    const { redirectTo, socket } = this.state;
 
     return [
-      redirectTo !== '' ? <Redirect key='redirect' to={redirectTo} push /> : null,
-      <div className='App flex-container' key='app' >
+      redirectTo !== '' ? <Redirect to={redirectTo} push key='Redirect' /> : null,
+      <div className='App flex-container' key='App' >
         <div className='flex-item'>
           <h1>Hello App Component</h1>
           <Header
@@ -73,16 +61,28 @@ class App extends React.Component {
           />
         </div>
         <div className='flex-item'>
-          <Switch>
-            <Route path='/signin' rebder={(props) => (<SignInPage {...props} socket={socket} />)} />
-            <Route path='/' render={(props) => (<Lobby {...props} socket={socket} />)} />
-          </Switch>
+          <BrowserRouter>
+            <Switch>
+              <Route
+                path='/signin'
+                render={(props) =>
+                  <SignInPage {...props} socket={socket} />
+                }
+              />
+              <Route
+                path='/'
+                render={(props) =>
+                  <Lobby {...props} socket={socket} signIn={this.props.signIn} />
+                }
+              />
+            </Switch>
+          </BrowserRouter>
         </div>
       </div>
     ];
   }
 }
-// <Redirect to='/signin' push />
+
 const mapStateToProps = (state) => {
   return {
     auth: state.user.auth

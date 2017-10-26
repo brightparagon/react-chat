@@ -18,9 +18,7 @@ const render = (Component) => {
   ReactDOM.render (
     <AppContainer>
       <Provider store={store}>
-        <BrowserRouter>
-          <Component/>
-        </BrowserRouter>
+        <Component/>
       </Provider>
     </AppContainer>,
     rootElement
