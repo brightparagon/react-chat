@@ -9,8 +9,7 @@ import {
   Header
 } from './components';
 import {
-  signIn,
-  signOut
+  signIn
 } from './actions/user';
 import './index.css';
 
@@ -18,27 +17,8 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      socket: io('', {path: '/api/chat'}),
-      redirectTo: ''
+      socket: io('', {path: '/api/chat'})
     };
-
-    this.handleSignOut = this.handleSignOut.bind(this);
-  }
-
-  handleSignOut() {
-    const { socket } = this.state;
-
-    window.sessionStorage.removeItem('user_email');
-    window.sessionStorage.removeItem('user_name');
-    const dataToSend = {
-      email: this.props.auth.user.email,
-      name: this.props.auth.user.name
-    };
-    socket.emit('signout', dataToSend);
-    this.props.signOut();
-    this.setState({
-      redirectTo: '/signin'
-    });
   }
 
   componentWillUnmount() {
@@ -49,15 +29,12 @@ class App extends React.Component {
   render() {
     const { redirectTo, socket } = this.state;
 
-    return [
-      redirectTo !== '' ? <Redirect to={redirectTo} push key='Redirect' /> : null,
+    return (
       <div className='App flex-container' key='App' >
         <div className='flex-item'>
           <h1>Hello App Component</h1>
           <Header
-            isSignedIn={this.props.auth.isSignedIn}
-            signedInUser={this.props.auth.user}
-            onSignOut={this.handleSignOut}
+            socket={socket}
           />
         </div>
         <div className='flex-item'>
@@ -79,25 +56,16 @@ class App extends React.Component {
           </BrowserRouter>
         </div>
       </div>
-    ];
+    );
   }
 }
-
-const mapStateToProps = (state) => {
-  return {
-    auth: state.user.auth
-  };
-};
 
 const mapDispatchToProps = (dispatch) => {
   return {
     signIn: (signedUser, isSignedIn) => {
       return dispatch(signIn(signedUser, isSignedIn))
-    },
-    signOut: () => {
-      return dispatch(signOut())
     }
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default connect(null, mapDispatchToProps)(App);

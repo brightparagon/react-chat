@@ -1,7 +1,7 @@
 import * as types from '../actions/ActionTypes';
 
 const initialState = {
-  messages: []  // array of objects { email, name, message }
+  messages: []  // array of objects { email, name, content }
 };
 
 export default function message(state = initialState, action) {
@@ -12,9 +12,8 @@ export default function message(state = initialState, action) {
         messages: [
           ...state.messages,
           {
-            email: action.email,
-            name: action.name,
-            message: action.message
+            // email, name, content
+            ...action
           }
         ]
       };

@@ -13,6 +13,11 @@
   border-radius: 10px;
 }
 
+.message-scroll {
+  height: 500px;
+  overflow: scroll;
+}
+
 .button {
   padding: 10px;
   text-align: center;

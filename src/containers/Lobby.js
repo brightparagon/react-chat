@@ -12,7 +12,7 @@ class Lobby extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      message: ''
+      content: ''
     };
 
     this.handleSendMessage = this.handleSendMessage.bind(this);
@@ -21,20 +21,20 @@ class Lobby extends React.Component {
 
   handleChange(e) {
     this.setState({
-      message: e.target.value
+      content: e.target.value
     });
   }
 
   handleSendMessage() {
-    const { message } = this.state;
+    const { content } = this.state;
     const data = {
       email: this.props.auth.user.email,
       name: this.props.auth.user.name,
-      message: message
+      content
     };
     this.props.socket.emit('message', data);
     this.setState({
-      message: ''
+      content: ''
     });
   }
 
@@ -51,12 +51,15 @@ class Lobby extends React.Component {
     }
 
     this.props.socket.on('welcome', (userName) => {
+      console.log('Lobby welcome');
       this.props.addMessage('welcome', userName, `${userName}님이 입장하셨습니다ㅎㅎ`);
     });
     this.props.socket.on('broadcast', (data) => {
-      this.props.addMessage(data.email, data.name, data.message);
+      console.log('Lobby broadcast');
+      this.props.addMessage(data.email, data.name, data.content);
     });
     this.props.socket.on('signout', (userName) => {
+      console.log('Lobby sign out');
       this.props.addMessage('signout', userName, `${userName}님이 퇴장하셨습니다ㅜㅜ`);
     });
   }
@@ -67,9 +70,9 @@ class Lobby extends React.Component {
         <div className='flex-page-item'>
           <h1>Hello Lobby Component</h1>
         </div>
-        <div className='flex-page-item'>
+        <div className='flex-page-item message-scroll'>
           {this.props.messages.map((message, index) =>
-            <div key={message.name + index}>{message.name}: {message.message}</div>
+            <div key={index}>{message.name}: {message.content}</div>
           )}
         </div>
         <div className='flex-page-item'>
@@ -95,8 +98,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    addMessage: (email, name, message) => {
-      return dispatch(addMessage(email, name, message));
+    addMessage: (email, name, content) => {
+      return dispatch(addMessage(email, name, content));
     }
   };
 };

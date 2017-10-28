@@ -3,7 +3,7 @@ import * as types from '../actions/ActionTypes';
 const initialState = {
   auth: {
     isSignedIn: false,
-    user: {
+    signedUser: {
       id: '',
       name: '',
       imageUrl: '',
@@ -21,7 +21,9 @@ export default function user(state = initialState, action) {
         auth: {
           ...state.auth,
           isSignedIn: action.isSignedIn,
-          user: action.signedUser
+          signedUser: {
+            ...action.signedUser
+          }
         }
       }
 
@@ -30,9 +32,7 @@ export default function user(state = initialState, action) {
       return {
         ...state,
         auth: {
-          ...state.auth,
-          isSignedIn: initialState.auth.isSignedIn,
-          user: initialState.auth.user
+          ...initialState.auth
         }
       }
 
