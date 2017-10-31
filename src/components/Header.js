@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import {
   signOut
@@ -16,8 +17,8 @@ class Header extends React.Component {
     window.sessionStorage.removeItem('user_email');
     window.sessionStorage.removeItem('user_name');
     const dataToSend = {
-      email: this.props.auth.user.email,
-      name: this.props.auth.user.name
+      email: this.props.auth.signedUser.email,
+      name: this.props.auth.signedUser.name
     };
     socket.emit('signout', dataToSend);
     this.props.signOut();
@@ -30,7 +31,7 @@ class Header extends React.Component {
     return (
       <div>
         {
-          auth.user.isSignedIn ?
+          auth.isSignedIn ?
             <div>
               <h2>Signed!</h2>
               <button
@@ -38,8 +39,8 @@ class Header extends React.Component {
               >
                 Sign out
               </button>
-              <h3>이름: {auth.user.name}</h3>
-              <h3>이메일: {auth.user.email}</h3>
+              <h3>이름: {auth.signedUser.name}</h3>
+              <h3>이메일: {auth.signedUser.email}</h3>
             </div>
             :
             null
@@ -63,4 +64,4 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default Header;
+export default connect(mapStateToProps, mapDispatchToProps)(Header);
